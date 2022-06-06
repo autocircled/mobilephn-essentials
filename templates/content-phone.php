@@ -78,49 +78,52 @@ if ( ! defined( 'ABSPATH' ) ) {
             if ( function_exists('acf_add_local_field_group') ){
                 ?>
                 <div class="specs-list">
+                    <!-- Start Network -->
                     <h3>Network</h3>
                     <table>
-                    <?php if (get_field('network_2g_bands')) : ?>
-                        <tr>
-                            <th>2G bands</th>
-                            <td><?php 
-                            echo esc_html( 'GSM ' );
-                            esc_html( the_field('network_2g_bands') );
-                            // $_4g_obj = get_field_object('network_4g_bands');
-                            // $text = '';
-                            // $c = count( get_field('network_4g_bands') );
-                            // foreach( get_field('network_4g_bands') as $bands ){
-                            //     $punc = $c > 1 ? ', ' : '';
-                            //     $text .= $_4g_obj['choices'][$bands] . $punc; 
-                            //     $c--;
-                            // }
-                            // echo esc_html( $text );
-                            ?></td>
-                        </tr>
+                        <?php if (get_field('network_2g_bands')) : ?>
+                            <tr>
+                                <th>2G bands</th>
+                                <td><?php 
+                                echo esc_html( 'GSM ' );
+                                esc_html( the_field('network_2g_bands') );
+                                // $_4g_obj = get_field_object('network_4g_bands');
+                                // $text = '';
+                                // $c = count( get_field('network_4g_bands') );
+                                // foreach( get_field('network_4g_bands') as $bands ){
+                                //     $punc = $c > 1 ? ', ' : '';
+                                //     $text .= $_4g_obj['choices'][$bands] . $punc; 
+                                //     $c--;
+                                // }
+                                // echo esc_html( $text );
+                                ?></td>
+                            </tr>
                         <?php endif;
                         if (get_field('network_3g_bands')) : ?>
-                        <tr>
-                            <th>3G bands</th>
-                            <td><?php 
-                            echo esc_html( 'HSDPA ' );
-                            esc_html( the_field('network_3g_bands') );
-                            ?></td>
-                        </tr>
+                            <tr>
+                                <th>3G bands</th>
+                                <td><?php 
+                                echo esc_html( 'HSDPA ' );
+                                esc_html( the_field('network_3g_bands') );
+                                ?></td>
+                            </tr>
                         <?php endif;
                         if (get_field('network_4g_bands')) : ?>
-                        <tr>
-                            <th>4G bands</th>
-                            <td><?php esc_html( the_field('network_4g_bands') ); ?></td>
-                        </tr>
+                            <tr>
+                                <th>4G bands</th>
+                                <td><?php esc_html( the_field('network_4g_bands') ); ?></td>
+                            </tr>
                         <?php endif;
                         if (get_field('network_5g_bands')) : ?>
-                        <tr>
-                            <th>5G bands</th>
-                            <td><?php esc_html( the_field('network_5g_bands') ); ?></td>
-                        </tr>
+                            <tr>
+                                <th>5G bands</th>
+                                <td><?php esc_html( the_field('network_5g_bands') ); ?></td>
+                            </tr>
                         <?php endif; ?>
                     </table>
+                    <!-- End Network -->
 
+                    <!-- Start Launch -->
                     <h3>Launch</h3>
                     <table>
                         <?php if (get_field('general_year')) : ?>
@@ -136,7 +139,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </tr>
                         <?php endif; ?>
                     </table>
+                    <!-- End Launch -->
                     
+                    <!-- Start Body -->
                     <h3>Body</h3>
                     <table>
                         <?php if (get_field('body_height')) : ?>
@@ -179,7 +184,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </tr>
                         <?php endif; ?>
                     </table>
+                    <!-- Start Body -->
 
+                    <!-- Start Display -->
                     <h3>Display</h3>
                     <table>
                         <?php
@@ -227,7 +234,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </tr>
                         <?php endif; ?>
                     </table>
+                    <!-- End Display -->
 
+                    <!-- Start Platform -->
                     <h3>Platform</h3>
                     <table>
                         <?php
@@ -287,7 +296,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </tr>
                         <?php endif; ?>
                     </table>
+                    <!-- End Platform -->
 
+                    <!-- Start Memory -->
                     <h3>Memory</h3>
                     <table>
                         <?php
@@ -344,7 +355,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php endif; ?>
 
                     </table>
+                    <!-- End Memory -->
 
+                    <!-- Start Main Camera -->
                     <h3>Main Camera</h3>
                     <table>
                         <?php
@@ -456,7 +469,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </tr>
                         <?php endif; ?>
                     </table>
+                    <!-- End Main Camera -->
 
+                    <!-- Start Selfie Camera -->
                     <h3>Selfie Camera</h3>
                     <table>
                         <?php
@@ -570,6 +585,53 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </tr>
                         <?php endif; ?>
                     </table>
+                    <!-- End Selfie Camera -->
+
+                    <!-- Start Sound -->
+                    <h3>Sound</h3>
+                    <table>
+                        <?php
+                        $display = false;
+                        if ( get_field( 'audio_dual_speakers' ) ) {
+                            $display = true;
+                            $loudspeaker = 'Yes';
+                        }
+                        ?>
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th>Loudspeaker</th>
+                            <td><?php echo esc_html( $loudspeaker ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+
+                        <?php
+                        $display = false;
+                        if ( get_field( 'audio_35mm_jack' ) || get_field( 'audio_extra_info_1' ) || get_field( 'audio_extra_info_2' ) ) {
+                            $display = true;
+                            $jack = [];
+                            if ( get_field( 'audio_35mm_jack' ) ) {
+                                $jack[] = 'Yes';
+                            }
+                            if ( get_field( 'audio_extra_info_1' ) ) {
+                                $jack[] = get_field( 'audio_extra_info_1' );
+                            }
+                            if ( get_field( 'audio_extra_info_2' ) ) {
+                                $jack[] = get_field( 'audio_extra_info_2' );
+                            }
+                        }
+                        ?>
+                        <?php if ( $display ) : 
+                            for( $i = 0; $i < count( $jack ); $i++ ){
+                                ?>
+                                <tr>
+                                    <th><?php echo $i == 0 ? esc_html( '3.5mm jack' ) : ''; ?></th>
+                                    <td><?php echo esc_html( $jack[$i] ); ?></td>
+                                </tr>
+                                <?php
+                            }
+                            endif; ?>
+                    </table>
+                    <!-- End Sound -->
                 </div>
                 <?php
 
