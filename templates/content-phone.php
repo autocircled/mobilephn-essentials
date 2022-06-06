@@ -382,6 +382,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     if (
                                         get_field( 'main_camera_camera_info_camera_'. $i .'_resolution' ) ||
                                         get_field( 'main_camera_camera_info_camera_'. $i .'_type' )  || 
+                                        get_field( 'main_camera_camera_info_camera_'. $i .'_f-number' )  || 
                                         get_field( 'main_camera_camera_info_camera_'. $i .'_others' )
                                     ) {
 
@@ -391,6 +392,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                                         if ( get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) && get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) !== 'none' ) {
                                             $cam[] = '(' . get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) . ')';
+                                        }
+                                        if ( get_field( 'main_camera_camera_info_camera_'. $i .'_f-number' ) ) {
+                                            $cam[] = get_field( 'main_camera_camera_info_camera_'. $i .'_f-number' );
                                         }
                                         if ( get_field( 'main_camera_camera_info_camera_'. $i .'_others' ) ) {
                                             $cam[] = get_field( 'main_camera_camera_info_camera_'. $i .'_others' );
@@ -415,12 +419,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                         if (
                             get_field( 'main_camera_features_panoroma' ) ||
                             get_field( 'main_camera_features_hdr' ) ||
-                            get_field( 'main_camera_features_flash' )
+                            ( get_field( 'main_camera_features_flash' ) &&
+                            get_field( 'main_camera_features_flash' ) !== 'none' )
                         ) { 
                             $display = true;
                             $features = [];
                             if ( get_field( 'main_camera_features_flash' ) ) {
-                                $features[] = get_field( 'main_camera_features_flash' );
+                                $features[] = get_field( 'main_camera_features_flash' ) !== 'none' ? get_field( 'main_camera_features_flash' ) : '';
                             }
                             if ( get_field( 'main_camera_features_panoroma' ) ) {
                                 $features[] = 'Panorama';
@@ -448,6 +453,120 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <tr>
                             <th>Video</th>
                             <td><?php echo esc_html( get_field( 'main_camera_cameras_video_details' ) ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+                    </table>
+
+                    <h3>Selfie Camera</h3>
+                    <table>
+                        <?php
+                        $display = false;
+                        if ( get_field( 'selfie_camera_cameras_cameras' ) ) : 
+                            $display = true;
+                        endif; ?>
+                        <?php if ( $display ) : 
+                            
+                            if ( get_field( 'selfie_camera_cameras_cameras' ) && get_field( 'selfie_camera_cameras_cameras' ) > 0 ) {
+                                switch ( get_field( 'selfie_camera_cameras_cameras' ) ) {
+                                    case 1:
+                                        $number_of_cam = __( 'Single' );
+                                        break;
+                                    case 2:
+                                        $number_of_cam = __( 'Dual' );
+                                        break;
+                                    case 3:
+                                        $number_of_cam = __( 'Tripple' );
+                                        break;
+                                    case 4:
+                                        $number_of_cam = __( 'Quad' );
+                                        break;
+                                    default:
+                                        $number_of_cam = get_field( 'selfie_camera_cameras_cameras' ) . __( 'Cameras' );
+                                        break;
+                                }
+                            }
+
+                            $cam_count = intval( get_field( 'selfie_camera_cameras_cameras' ) );
+                            if ( $cam_count > 0 ) {
+                                for( $i = 1; $i <= $cam_count; $i++ ) {
+
+                                    $cam = [];
+                                    if (
+                                        get_field( 'selfie_camera_camera_info_camera_'. $i .'_resolution' ) ||
+                                        get_field( 'selfie_camera_camera_info_camera_'. $i .'_type' )  || 
+                                        get_field( 'selfie_camera_camera_info_camera_'. $i .'_f-number' )  || 
+                                        get_field( 'selfie_camera_camera_info_camera_'. $i .'_others' )
+                                    ) {
+
+                                        if ( get_field( 'selfie_camera_camera_info_camera_'. $i .'_resolution' ) ) {
+                                            $cam[] = get_field( 'selfie_camera_camera_info_camera_'. $i .'_resolution' ) . ' MP';
+                                        }
+
+                                        if ( get_field( 'selfie_camera_camera_info_camera_'. $i .'_f-number' ) ) {
+                                            $cam[] = 'f/'. get_field( 'selfie_camera_camera_info_camera_'. $i .'_f-number' );
+                                        }
+
+                                        if ( get_field( 'selfie_camera_camera_info_camera_'. $i .'_type' ) && get_field( 'selfie_camera_camera_info_camera_'. $i .'_type' ) !== 'none' ) {
+                                            $cam[] = '(' . get_field( 'selfie_camera_camera_info_camera_'. $i .'_type' ) . ')';
+                                        }
+                                        
+                                        if ( get_field( 'selfie_camera_camera_info_camera_'. $i .'_others' ) ) {
+                                            $cam[] = get_field( 'selfie_camera_camera_info_camera_'. $i .'_others' );
+                                        }
+                                    }
+
+                                    ?>
+                                    <tr>
+                                        <th><?php echo $i == 1 ? esc_html( $number_of_cam ) : ''; ?></th>
+                                        <td><?php echo esc_html( implode( ", ", $cam ) ); ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>
+
+                            
+                        <?php endif; ?>
+
+                        <?php
+                        $display = false;
+                        if (
+                            get_field( 'selfie_camera_features_panoroma' ) ||
+                            get_field( 'selfie_camera_features_hdr' ) ||
+                            ( get_field( 'selfie_camera_features_flash' ) &&
+                            get_field( 'selfie_camera_features_flash' ) !== 'none' )
+                        ) { 
+                            $display = true;
+                            $features = [];
+                            if ( get_field( 'selfie_camera_features_flash' ) ) {
+                                $features[] = get_field( 'selfie_camera_features_flash' ) !== 'none' ? get_field( 'selfie_camera_features_flash' ) : '';
+                            }
+                            if ( get_field( 'selfie_camera_features_panoroma' ) ) {
+                                $features[] = 'Panorama';
+                            }
+                            if ( get_field( 'selfie_camera_features_hdr' ) ) {
+                                $features[] = 'HDR';
+                            }
+                        } ?>
+                        
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th>Features</th>
+                            <td><?php echo esc_html( implode( ", ", $features ) ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+
+                        <?php
+                        $display = false;
+                        if ( get_field( 'selfie_camera_cameras_video_details' ) ) {
+                            $display = true;
+                        }
+                        ?>
+
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th>Video</th>
+                            <td><?php echo esc_html( get_field( 'selfie_camera_cameras_video_details' ) ); ?></td>
                         </tr>
                         <?php endif; ?>
                     </table>
