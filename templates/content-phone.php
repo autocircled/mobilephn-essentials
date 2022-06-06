@@ -227,6 +227,230 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </tr>
                         <?php endif; ?>
                     </table>
+
+                    <h3>Platform</h3>
+                    <table>
+                        <?php
+                        $display = false;
+                        $os = [];
+                        if (get_field('platform_android_version') || get_field('platform_android_skin') ) : 
+                            $display = true;
+                            $os[] = get_field('platform_android_version');
+                            $os[] = get_field('platform_android_skin');
+                        endif; ?>
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th>OS</th>
+                            <td><?php echo implode( ", ", $os ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+
+                        <?php
+                        $display = false;
+                        $chipset = [];
+                        if (get_field('platform_chipset_info_chipset_brand') || get_field('platform_chipset_info_chipset') ) : 
+                            $display = true;
+                            $chipset[] = get_field('platform_chipset_info_chipset_brand');
+                            $chipset[] = get_field('platform_chipset_info_chipset');
+                        endif; ?>
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th>Chipset</th>
+                            <td><?php echo implode( " ", $chipset ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+                        
+                        <?php
+                        $display = false;
+                        $cpu = [];
+                        if (get_field('platform_cpu_info_cpu_core_in_word') || get_field('platform_cpu_info_cpu_frequency_details') ) : 
+                            $display = true;
+                            $cpu[] = get_field('platform_cpu_info_cpu_core_in_word');
+                            $cpu[] = get_field('platform_cpu_info_cpu_frequency_details');
+                        endif; ?>
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th>CPU</th>
+                            <td><?php echo implode( " ", $cpu ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+
+                        <?php
+                        $display = false;
+                        if (get_field('platform_cpu_info_gpu') ) : 
+                            $display = true;
+                        endif; ?>
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th>GPU</th>
+                            <td><?php echo get_field('platform_cpu_info_gpu'); ?></td>
+                        </tr>
+                        <?php endif; ?>
+                    </table>
+
+                    <h3>Memory</h3>
+                    <table>
+                        <?php
+                        $display = false;
+                        if ( get_field( 'memory_type_card_slot' ) ) : 
+                            $display = true;
+                        endif; ?>
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th>Card slot</th>
+                            <td><?php echo esc_html( get_field( 'memory_type_card_slot' ) ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+                        
+                        <?php
+                        $display = false;
+                        if (
+                            get_field( 'memory_variation_1_storage' ) ||
+                            get_field( 'memory_variation_2_storage' ) ||
+                            get_field( 'memory_variation_3_storage' ) ||
+                            get_field( 'memory_variation_1_ram' ) ||
+                            get_field( 'memory_variation_2_ram' ) ||
+                            get_field( 'memory_variation_3_ram' )
+                        ) : 
+                            $display = true;
+                            $internal = [];
+                            if ( get_field( 'memory_variation_1_storage' ) && get_field( 'memory_variation_1_ram' ) ) {
+                                $internal[] = get_field( 'memory_variation_1_storage' ) . 'GB ' . get_field( 'memory_variation_1_ram' ) . 'GB RAM';
+                            }
+                            if ( get_field( 'memory_variation_2_storage' ) && get_field( 'memory_variation_2_ram' ) ) {
+                                $internal[] = get_field( 'memory_variation_2_storage' ) . 'GB ' . get_field( 'memory_variation_2_ram' ) . 'GB RAM';
+                            }
+                            if ( get_field( 'memory_variation_3_storage' ) && get_field( 'memory_variation_3_ram' ) ) {
+                                $internal[] = get_field( 'memory_variation_3_storage' ) . 'GB ' . get_field( 'memory_variation_3_ram' ) . 'GB RAM';
+                            }
+                        endif; ?>
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th>Internal</th>
+                            <td><?php echo esc_html( implode( ", ", $internal ) ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+
+                        <?php
+                        $display = false;
+                        if ( get_field( 'memory_type_storage' ) ) : 
+                            $display = true;
+                        endif; ?>
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th></th>
+                            <td><?php echo esc_html( get_field( 'memory_type_storage' ) ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+
+                    </table>
+
+                    <h3>Main Camera</h3>
+                    <table>
+                        <?php
+                        $display = false;
+                        if ( get_field( 'main_camera_cameras_cameras' ) ) : 
+                            $display = true;
+                        endif; ?>
+                        <?php if ( $display ) : 
+                            
+                            if ( get_field( 'main_camera_cameras_cameras' ) && get_field( 'main_camera_cameras_cameras' ) > 0 ) {
+                                switch ( get_field( 'main_camera_cameras_cameras' ) ) {
+                                    case 1:
+                                        $number_of_cam = __( 'Single' );
+                                        break;
+                                    case 2:
+                                        $number_of_cam = __( 'Dual' );
+                                        break;
+                                    case 3:
+                                        $number_of_cam = __( 'Tripple' );
+                                        break;
+                                    case 4:
+                                        $number_of_cam = __( 'Quad' );
+                                        break;
+                                    default:
+                                        $number_of_cam = get_field( 'main_camera_cameras_cameras' ) . __( 'Cameras' );
+                                        break;
+                                }
+                            }
+
+                            $cam_count = intval( get_field( 'main_camera_cameras_cameras' ) );
+                            if ( $cam_count > 0 ) {
+                                for( $i = 1; $i <= $cam_count; $i++ ) {
+
+                                    $cam = [];
+                                    if (
+                                        get_field( 'main_camera_camera_info_camera_'. $i .'_resolution' ) ||
+                                        get_field( 'main_camera_camera_info_camera_'. $i .'_type' )  || 
+                                        get_field( 'main_camera_camera_info_camera_'. $i .'_others' )
+                                    ) {
+
+                                        if ( get_field( 'main_camera_camera_info_camera_'. $i .'_resolution' ) ) {
+                                            $cam[] = get_field( 'main_camera_camera_info_camera_'. $i .'_resolution' ) . ' MP';
+                                        }
+
+                                        if ( get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) && get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) !== 'none' ) {
+                                            $cam[] = '(' . get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) . ')';
+                                        }
+                                        if ( get_field( 'main_camera_camera_info_camera_'. $i .'_others' ) ) {
+                                            $cam[] = get_field( 'main_camera_camera_info_camera_'. $i .'_others' );
+                                        }
+                                    }
+
+                                    ?>
+                                    <tr>
+                                        <th><?php echo $i == 1 ? esc_html( $number_of_cam ) : ''; ?></th>
+                                        <td><?php echo esc_html( implode( ", ", $cam ) ); ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>
+
+                            
+                        <?php endif; ?>
+
+                        <?php
+                        $display = false;
+                        if (
+                            get_field( 'main_camera_features_panoroma' ) ||
+                            get_field( 'main_camera_features_hdr' ) ||
+                            get_field( 'main_camera_features_flash' )
+                        ) { 
+                            $display = true;
+                            $features = [];
+                            if ( get_field( 'main_camera_features_flash' ) ) {
+                                $features[] = get_field( 'main_camera_features_flash' );
+                            }
+                            if ( get_field( 'main_camera_features_panoroma' ) ) {
+                                $features[] = 'Panorama';
+                            }
+                            if ( get_field( 'main_camera_features_hdr' ) ) {
+                                $features[] = 'HDR';
+                            }
+                        } ?>
+                        
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th>Features</th>
+                            <td><?php echo esc_html( implode( ", ", $features ) ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+
+                        <?php
+                        $display = false;
+                        if ( get_field( 'main_camera_cameras_video_details' ) ) {
+                            $display = true;
+                        }
+                        ?>
+
+                        <?php if ( $display ) : ?>
+                        <tr>
+                            <th>Video</th>
+                            <td><?php echo esc_html( get_field( 'main_camera_cameras_video_details' ) ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+                    </table>
                 </div>
                 <?php
 
