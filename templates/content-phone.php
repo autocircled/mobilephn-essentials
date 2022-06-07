@@ -77,6 +77,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             if ( function_exists('acf_add_local_field_group') ){
                 ?>
+                <style>
+                    .specs-list th {
+                        width: 130px;
+                        vertical-align: top;
+                    }
+                </style>
                 <div class="specs-list">
                     <!-- Start Network -->
                     <h3>Network</h3>
@@ -784,7 +790,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <!-- End Features -->
 
                     <!-- Start Battery -->
-                    <h3>Features</h3>
+                    <h3>Battery</h3>
                     <table>
                         <?php
                             $display = false;
@@ -794,7 +800,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             ?>
                             <?php if ( $display ) : ?>
                             <tr>
-                                <th>Battery</th>
+                                <th>Type</th>
                                 <td><?php echo esc_html( get_field( 'battery_description_type' ) ); ?></td>
                             </tr>
                         <?php endif; ?>
@@ -831,6 +837,94 @@ if ( ! defined( 'ABSPATH' ) ) {
                         
                     </table>
                     <!-- End Battery -->
+
+                    <!-- Start Miscellaneous -->
+                    <h3>Miscellaneous</h3>
+                    <table>
+                        <?php
+                            $display = false;
+                            if ( get_field( 'miscellaneous_colors' ) ) {
+                                $display = true;
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>Colors</th>
+                                <td><?php echo esc_html( implode( ", ", get_field( 'miscellaneous_colors') ) ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php
+                            $display = false;
+                            if ( get_field( 'miscellaneous_models' ) ) {
+                                $display = true;
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>Models</th>
+                                <td><?php echo esc_html( get_field( 'miscellaneous_models' ) ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php
+                            $display = false;
+                            if ( get_field( 'miscellaneous_sar' ) ) {
+                                $display = true;
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>SAR</th>
+                                <td><?php echo esc_html( get_field( 'miscellaneous_sar' ) ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php
+                            $display = false;
+                            if ( get_field( 'miscellaneous_sar_eu' ) ) {
+                                $display = true;
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>SAR EU</th>
+                                <td><?php echo esc_html( get_field( 'miscellaneous_sar_eu' ) ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php
+                            $display = false;
+                            
+                            if (
+                                get_field( 'miscellaneous_prices_price_1' ) ||
+                                get_field( 'miscellaneous_prices_price_2' ) ||
+                                get_field( 'miscellaneous_prices_price_3' ) ||
+                                get_field( 'miscellaneous_prices_price_4' ) ||
+                                get_field( 'miscellaneous_prices_price_5' ) ||
+                                get_field( 'miscellaneous_prices_price_6' )
+                            ) {
+                                $display = true;
+                            }
+                            ?>
+                            <?php if ( $display ) : 
+                                $price = [];
+                                for( $i = 1; $i <= 6; $i++ ) : 
+                                    
+                                    if( get_field( 'miscellaneous_prices_price_' . $i ) ) :
+                                        $price[] = '$' . get_field( 'miscellaneous_prices_price_' . $i );
+                                        ?>
+                                    <?php endif; ?>
+                                <?php endfor; ?>
+                                <tr>
+                                    <th>Price</th>
+                                    <td><?php echo esc_html( implode( ", ", $price ) ); ?></td>
+                                </tr>
+                            <?php endif; ?>
+
+                        
+                    </table>
+                    <!-- End Miscellaneous -->
                 </div>
                 <?php
 
