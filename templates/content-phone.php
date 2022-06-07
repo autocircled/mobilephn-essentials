@@ -205,6 +205,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <td><?php echo esc_html( implode( ", ", $type ) ); ?></td>
                         </tr>
                         <?php endif; ?>
+
                         <?php
                         $display = false;
                         $size = [];
@@ -315,6 +316,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         
                         <?php
                         $display = false;
+                        $internal = [];
                         if (
                             get_field( 'memory_variation_1_storage' ) ||
                             get_field( 'memory_variation_2_storage' ) ||
@@ -324,7 +326,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                             get_field( 'memory_variation_3_ram' )
                         ) : 
                             $display = true;
-                            $internal = [];
                             if ( get_field( 'memory_variation_1_storage' ) && get_field( 'memory_variation_1_ram' ) ) {
                                 $internal[] = get_field( 'memory_variation_1_storage' ) . 'GB ' . get_field( 'memory_variation_1_ram' ) . 'GB RAM';
                             }
@@ -362,6 +363,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <table>
                         <?php
                         $display = false;
+                        $number_of_cam = '';
                         if ( get_field( 'main_camera_cameras_cameras' ) ) : 
                             $display = true;
                         endif; ?>
@@ -416,7 +418,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                                     ?>
                                     <tr>
-                                        <th><?php echo $i == 1 ? esc_html( $number_of_cam ) : ''; ?></th>
+                                        <?php if ( $i == 1 ) : ?>
+                                            <th rowspan="<?php echo esc_attr( $cam_count ); ?>"><?php echo $i == 1 ? esc_html( $number_of_cam ) : ''; ?></th>
+                                        <?php endif; ?>
                                         <td><?php echo esc_html( implode( ", ", $cam ) ); ?></td>
                                     </tr>
                                     <?php
@@ -429,6 +433,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                         <?php
                         $display = false;
+                        $features = [];
                         if (
                             get_field( 'main_camera_features_panoroma' ) ||
                             get_field( 'main_camera_features_hdr' ) ||
@@ -436,7 +441,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                             get_field( 'main_camera_features_flash' ) !== 'none' )
                         ) { 
                             $display = true;
-                            $features = [];
                             if ( get_field( 'main_camera_features_flash' ) ) {
                                 $features[] = get_field( 'main_camera_features_flash' ) !== 'none' ? get_field( 'main_camera_features_flash' ) : '';
                             }
@@ -476,6 +480,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <table>
                         <?php
                         $display = false;
+                        $number_of_cam = '';
                         if ( get_field( 'selfie_camera_cameras_cameras' ) ) : 
                             $display = true;
                         endif; ?>
@@ -532,7 +537,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                                     ?>
                                     <tr>
-                                        <th><?php echo $i == 1 ? esc_html( $number_of_cam ) : ''; ?></th>
+                                        <?php if ( $i == 1 ) : ?>
+                                            <th rowspan="<?php echo esc_attr( $cam_count ); ?>"><?php echo $i == 1 ? esc_html( $number_of_cam ) : ''; ?></th>
+                                        <?php endif; ?>
                                         <td><?php echo esc_html( implode( ", ", $cam ) ); ?></td>
                                     </tr>
                                     <?php
@@ -545,6 +552,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                         <?php
                         $display = false;
+                        $features = [];
                         if (
                             get_field( 'selfie_camera_features_panoroma' ) ||
                             get_field( 'selfie_camera_features_hdr' ) ||
@@ -552,7 +560,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                             get_field( 'selfie_camera_features_flash' ) !== 'none' )
                         ) { 
                             $display = true;
-                            $features = [];
                             if ( get_field( 'selfie_camera_features_flash' ) ) {
                                 $features[] = get_field( 'selfie_camera_features_flash' ) !== 'none' ? get_field( 'selfie_camera_features_flash' ) : '';
                             }
@@ -591,40 +598,43 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <h3>Sound</h3>
                     <table>
                         <?php
-                        $display = false;
-                        if ( get_field( 'audio_dual_speakers' ) ) {
-                            $display = true;
-                            $loudspeaker = 'Yes';
-                        }
-                        ?>
-                        <?php if ( $display ) : ?>
-                        <tr>
-                            <th>Loudspeaker</th>
-                            <td><?php echo esc_html( $loudspeaker ); ?></td>
-                        </tr>
+                            $display = false;
+                            $loudspeaker = '';
+                            if ( get_field( 'audio_dual_speakers' ) ) {
+                                $display = true;
+                                $loudspeaker = 'Yes';
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>Loudspeaker</th>
+                                <td><?php echo esc_html( $loudspeaker ); ?></td>
+                            </tr>
                         <?php endif; ?>
 
                         <?php
-                        $display = false;
-                        if ( get_field( 'audio_35mm_jack' ) || get_field( 'audio_extra_info_1' ) || get_field( 'audio_extra_info_2' ) ) {
-                            $display = true;
+                            $display = false;
                             $jack = [];
-                            if ( get_field( 'audio_35mm_jack' ) ) {
-                                $jack[] = 'Yes';
+                            if ( get_field( 'audio_35mm_jack' ) || get_field( 'audio_extra_info_1' ) || get_field( 'audio_extra_info_2' ) ) {
+                                $display = true;
+                                if ( get_field( 'audio_35mm_jack' ) ) {
+                                    $jack[] = 'Yes';
+                                }
+                                if ( get_field( 'audio_extra_info_1' ) ) {
+                                    $jack[] = get_field( 'audio_extra_info_1' );
+                                }
+                                if ( get_field( 'audio_extra_info_2' ) ) {
+                                    $jack[] = get_field( 'audio_extra_info_2' );
+                                }
                             }
-                            if ( get_field( 'audio_extra_info_1' ) ) {
-                                $jack[] = get_field( 'audio_extra_info_1' );
-                            }
-                            if ( get_field( 'audio_extra_info_2' ) ) {
-                                $jack[] = get_field( 'audio_extra_info_2' );
-                            }
-                        }
                         ?>
                         <?php if ( $display ) : 
                             for( $i = 0; $i < count( $jack ); $i++ ){
                                 ?>
                                 <tr>
-                                    <th><?php echo $i == 0 ? esc_html( '3.5mm jack' ) : ''; ?></th>
+                                    <?php if ( $i == 0 ) : ?>
+                                        <th rowspan="10"><?php echo $i == 0 ? esc_html( '3.5mm jack' ) : ''; ?></th>
+                                    <?php endif; ?>
                                     <td><?php echo esc_html( $jack[$i] ); ?></td>
                                 </tr>
                                 <?php
@@ -632,6 +642,195 @@ if ( ! defined( 'ABSPATH' ) ) {
                             endif; ?>
                     </table>
                     <!-- End Sound -->
+
+                    <!-- Start Commons -->
+                    <h3>Commons</h3>
+                    <table>
+                        <?php
+                            $display = false;
+                            if ( get_field( 'connectivity_wifi_description' ) ) {
+                                $display = true;
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>WLAN</th>
+                                <td><?php echo esc_html( get_field( 'connectivity_wifi_description' ) ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php
+                            $display = false;
+                            if ( get_field( 'connectivity_bluetooth_description' ) ) {
+                                $display = true;
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>Bluetooth</th>
+                                <td><?php echo esc_html( get_field( 'connectivity_bluetooth_description' ) ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php
+                            $display = false;
+                            if ( get_field( 'connectivity_gps_description' ) ) {
+                                $display = true;
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>GPS</th>
+                                <td><?php echo esc_html( get_field( 'connectivity_gps_description' ) ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php
+                            $display = false;
+                            $nfc = '';
+                            if ( get_field( 'connectivity_nfc_nfc' ) ) {
+                                $display = true;
+                                if ( !empty( get_field( 'connectivity_nfc_description' ) ) ) {
+                                    $nfc = get_field( 'connectivity_nfc_description' );
+                                } else {
+                                    $nfc = "Yes";
+                                }
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>NFC</th>
+                                <td><?php echo esc_html( $nfc ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php
+                            $display = false;
+                            $infrared = '';
+                            if ( get_field( 'connectivity_infrared_infrared' ) ) {
+                                $display = true;
+                                if ( !empty( get_field( 'connectivity_infrared_description' ) ) ) {
+                                    $infrared = get_field( 'connectivity_infrared_description' );
+                                } else {
+                                    $infrared = "Yes";
+                                }
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>Infrared port</th>
+                                <td><?php echo esc_html( $infrared ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php
+                            $display = false;
+                            $radio = '';
+                            if ( get_field( 'connectivity_fm_radio_fm_radio' ) ) {
+                                $display = true;
+                                if ( !empty( get_field( 'connectivity_fm_radio_description' ) ) ) {
+                                    $radio = get_field( 'connectivity_fm_radio_description' );
+                                } else {
+                                    $radio = "Yes";
+                                }
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>Radio</th>
+                                <td><?php echo esc_html( $radio ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php
+                            $display = false;
+                            $usb = '';
+                            if ( get_field( 'connectivity_usb_usb_description' ) ) {
+                                $display = true;
+                                if ( !empty( get_field( 'connectivity_usb_usb_description' ) ) ) {
+                                    $usb = get_field( 'connectivity_usb_usb_description' );
+                                } else {
+                                    $usb = "Yes";
+                                }
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>USB</th>
+                                <td><?php echo esc_html( $usb ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+                    </table>
+                    <!-- End Commons -->
+
+                    <!-- Start Features -->
+                    <h3>Features</h3>
+                    <table>
+                        <?php
+                            $display = false;
+                            if ( get_field( 'sensors_description' ) ) {
+                                $display = true;
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>Features</th>
+                                <td><?php echo esc_html( get_field( 'sensors_description' ) ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        
+                    </table>
+                    <!-- End Features -->
+
+                    <!-- Start Battery -->
+                    <h3>Features</h3>
+                    <table>
+                        <?php
+                            $display = false;
+                            if ( get_field( 'battery_description_type' ) ) {
+                                $display = true;
+                            }
+                            ?>
+                            <?php if ( $display ) : ?>
+                            <tr>
+                                <th>Battery</th>
+                                <td><?php echo esc_html( get_field( 'battery_description_type' ) ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php
+                            $display = false;
+                            
+                            if (
+                                get_field( 'battery_description_charging_data_1' ) ||
+                                get_field( 'battery_description_charging_data_2' ) ||
+                                get_field( 'battery_description_charging_data_3' ) ||
+                                get_field( 'battery_description_charging_data_4' ) ||
+                                get_field( 'battery_description_charging_data_5' ) ||
+                                get_field( 'battery_description_charging_data_6' ) ||
+                                get_field( 'battery_description_charging_data_7' )
+                            ) {
+                                $display = true;
+                            }
+                            ?>
+                            <?php if ( $display ) : 
+                                for( $i = 1; $i <= 7; $i++ ) :
+                                    if ( get_field( 'battery_description_charging_data_' . $i ) ) :
+                                        ?>
+                                        <tr>
+                                            <?php if ( $i ==1 ) : ?>
+                                                <th rowspan="<?php echo $i == 1 ? esc_attr( 10 ) : ''; ?>"><?php echo $i == 1 ? esc_html( 'Charging' ) : ''; ?></th>
+                                            <?php endif; ?>
+                                            <td><?php echo esc_html( get_field( 'battery_description_charging_data_' . $i ) ); ?></td>
+                                        </tr>
+                                    <?php endif; ?>
+                                <?php endfor; ?>
+                            <?php endif; ?>
+
+                        
+                    </table>
+                    <!-- End Battery -->
                 </div>
                 <?php
 
