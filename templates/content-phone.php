@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'sone-article-single' ); ?>>
 	<?php
-	if ( 'post' === get_post_type() ) :
+	if ( 'phone' === get_post_type() ) :
 		if ( has_post_thumbnail() ) :
 			?>
 			<div class="caption">
@@ -87,21 +87,18 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <!-- Start Network -->
                     <h3>Network</h3>
                     <table>
+                        <?php if (get_field('network_speed')) : ?>
+                            <tr>
+                                <th>Technology</th>
+                                <td><?php echo esc_html( get_field('network_speed') );
+                                ?></td>
+                            </tr>
+                        <?php endif; ?>
                         <?php if (get_field('network_2g_bands')) : ?>
                             <tr>
                                 <th>2G bands</th>
                                 <td><?php 
-                                echo esc_html( 'GSM ' );
-                                esc_html( the_field('network_2g_bands') );
-                                // $_4g_obj = get_field_object('network_4g_bands');
-                                // $text = '';
-                                // $c = count( get_field('network_4g_bands') );
-                                // foreach( get_field('network_4g_bands') as $bands ){
-                                //     $punc = $c > 1 ? ', ' : '';
-                                //     $text .= $_4g_obj['choices'][$bands] . $punc; 
-                                //     $c--;
-                                // }
-                                // echo esc_html( $text );
+                                echo esc_html( 'GSM ' ) . esc_html( implode( ", ", get_field('network_2g_bands') ) );
                                 ?></td>
                             </tr>
                         <?php endif;
@@ -109,21 +106,20 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <tr>
                                 <th>3G bands</th>
                                 <td><?php 
-                                echo esc_html( 'HSDPA ' );
-                                esc_html( the_field('network_3g_bands') );
+                                echo esc_html( 'HSDPA ' ) . esc_html( implode( ", ", get_field('network_3g_bands') ) );
                                 ?></td>
                             </tr>
                         <?php endif;
                         if (get_field('network_4g_bands')) : ?>
                             <tr>
                                 <th>4G bands</th>
-                                <td><?php esc_html( the_field('network_4g_bands') ); ?></td>
+                                <td><?php echo esc_html( implode( ", ", get_field('network_4g_bands') ) ); ?></td>
                             </tr>
                         <?php endif;
                         if (get_field('network_5g_bands')) : ?>
                             <tr>
                                 <th>5G bands</th>
-                                <td><?php esc_html( the_field('network_5g_bands') ); ?></td>
+                                <td><?php echo esc_html( implode( ", ", get_field('network_5g_bands') ) ); ?></td>
                             </tr>
                         <?php endif; ?>
                     </table>
