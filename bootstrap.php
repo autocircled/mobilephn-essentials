@@ -12,6 +12,7 @@ namespace MblEssen;
 use \MblEssen\Includes\Register_Post_Type;
 use \MblEssen\Includes\Register_Post_Metas;
 use \MblEssen\Includes\Register_Post_Templates;
+use \MblEssen\Includes\Helper;
 
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -32,6 +33,7 @@ class Bootstrap {
 		Register_Post_Type::instance();
 		Register_Post_Metas::instance();
 		Register_Post_Templates::instance();
+		Helper::instance();
 	}
 
 	public static function instance() {

@@ -13,17 +13,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'sone-article-single' ); ?>>
-	<?php
-	if ( 'phone' === get_post_type() ) :
-		if ( has_post_thumbnail() ) :
-			?>
-			<div class="caption">
-				<?php sacchaone_post_thumbnail( 'sacchaone-blog-thumbnail' ); ?>
-			</div>
-			<?php
-		endif;
-	endif;
-	?>
+    <div class="feature-section">
+        <?php
+            if ( 'phone' === get_post_type() ) :
+                if ( has_post_thumbnail() ) :
+                    ?>
+                    <div class="caption">
+                        <?php sacchaone_post_thumbnail( 'sacchaone-blog-thumbnail' ); ?>
+                    </div>
+                    <?php
+                endif;
+            endif;
+        ?>
+        <?php do_action( 'mbl_essen_after_featured_section' ); ?>
+    </div>
 
 	<div class="content-wrapper">
 		<header class="entry-header">

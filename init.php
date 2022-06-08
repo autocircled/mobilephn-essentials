@@ -31,7 +31,7 @@ if ( ! defined( 'MBLESSEN_DIR' ) ) {
 }
 
 if ( ! defined( 'MBLESSEN_URL' ) ) {
-	define( 'MBLESSEN_URL', plugin_dir_url( __FILE__ ) );
+	define( 'MBLESSEN_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 }
 
 if ( ! defined( 'MBLESSEN_NAMESPACE' ) ) {
