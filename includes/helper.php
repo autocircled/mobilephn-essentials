@@ -56,43 +56,44 @@ class Helper {
         <div id="phone-images-modal" class="phone-images">
             <span class="close-modal">&times;</span>
             <div class="pim-modal-content">
-                <?php
-                $slider_items = [];
-                if (
-                    get_field( 'images_image_1' ) ||
-                    get_field( 'images_image_2' ) ||
-                    get_field( 'images_image_3' ) ||
-                    get_field( 'images_image_4' ) ||
-                    get_field( 'images_image_5' ) ||
-                    get_field( 'images_image_6' ) ||
-                    get_field( 'images_image_7' ) ||
-                    get_field( 'images_image_8' ) ||
-                    get_field( 'images_image_9' ) ||
-                    get_field( 'images_image_10' )
-                ) {
-                    for( $i = 1; $i <= 10; $i++ ) {
-                        // var_dump(get_field( 'images_image_' . $i ));
-                        if ( get_field( 'images_image_' . $i ) ) {
-                            $srcset = wp_get_attachment_image_srcset( get_field( 'images_image_' . $i ) );
-                            $slider_items[] = wp_get_attachment_image_url( get_field( 'images_image_' . $i ) );
-                            ?>
-                            <div class="pim-slides">
-                                <span class="steps"><?php echo esc_html( $i ); ?> / <span class="total">4</span></span>
-                                <img src="<?php echo wp_get_attachment_image_url( get_field( 'images_image_' . $i ), '' ); ?>" srcset="<?php echo esc_attr( $srcset ); ?>">
-                            </div>
-                            <?php
+                <div class="pim-slider-inner">
+                    <?php
+                    $slider_items = [];
+                    if (
+                        get_field( 'images_image_1' ) ||
+                        get_field( 'images_image_2' ) ||
+                        get_field( 'images_image_3' ) ||
+                        get_field( 'images_image_4' ) ||
+                        get_field( 'images_image_5' ) ||
+                        get_field( 'images_image_6' ) ||
+                        get_field( 'images_image_7' ) ||
+                        get_field( 'images_image_8' ) ||
+                        get_field( 'images_image_9' ) ||
+                        get_field( 'images_image_10' )
+                    ) {
+                        for( $i = 1; $i <= 10; $i++ ) {
+                            // var_dump(get_field( 'images_image_' . $i ));
+                            if ( get_field( 'images_image_' . $i ) ) {
+                                $srcset = wp_get_attachment_image_srcset( get_field( 'images_image_' . $i ) );
+                                $slider_items[] = wp_get_attachment_image_url( get_field( 'images_image_' . $i ) );
+                                ?>
+                                <div class="pim-slides">
+                                    <span class="steps"><?php echo esc_html( $i ); ?> / <span class="total">4</span></span>
+                                    <img src="<?php echo wp_get_attachment_image_url( get_field( 'images_image_' . $i ), '' ); ?>" srcset="<?php echo esc_attr( $srcset ); ?>">
+                                </div>
+                                <?php
+                            }
                         }
                     }
-                }
-                ?>
-                <!-- Next/previous controls -->
-                <a class="prev">&#10094;</a>
-                <a class="next">&#10095;</a>
-
-                <!-- Caption text -->
-                <div class="caption-container">
-                    <p id="caption"></p>
+                    ?>
+                    <!-- Next/previous controls -->
+                    <a class="prev">&#10094;</a>
+                    <a class="next">&#10095;</a>
                 </div>
+                <!-- Caption text -->
+                <!-- <div class="caption-container">
+                    <p id="caption"></p>
+                </div> -->
 
                 <div class="dot-nav">
                     <?php

@@ -35,7 +35,7 @@ mblEssen.modal = {
 		var i;
 		var slides = document.getElementsByClassName("pim-slides");
 		var dots = document.getElementsByClassName("dotb");
-		var captionText = document.getElementById("caption");
+		// var captionText = document.getElementById("caption");
 		if (n > slides.length) {
 			slideIndex = 1;
 		}
@@ -50,7 +50,7 @@ mblEssen.modal = {
 		}
 		slides[slideIndex - 1].style.display = "block";
 		dots[slideIndex - 1].className += " active";
-		captionText.innerHTML = dots[slideIndex - 1].alt;
+		// captionText.innerHTML = dots[slideIndex - 1].alt;
 	},
 
 	changeSlides: function () {
