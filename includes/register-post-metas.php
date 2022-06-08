@@ -297,7 +297,7 @@ class Register_Post_Metas {
                                         ),
                                         'layout' => 'vertical',
                                         'toggle' => 0,
-                                        'return_format' => 'array',
+                                        'return_format' => 'value',
                                         'save_custom' => 0,
                                     ),
                                     array(
@@ -370,7 +370,7 @@ class Register_Post_Metas {
                                         ),
                                         'layout' => 'vertical',
                                         'toggle' => 0,
-                                        'return_format' => 'array',
+                                        'return_format' => 'value',
                                         'save_custom' => 0,
                                     ),
                                     array(

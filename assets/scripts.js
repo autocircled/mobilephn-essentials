@@ -12,6 +12,8 @@ mblEssen.modal = {
 		const openModalBtn = document.querySelector(
 			".feature-section span.mbl-modal-button"
 		);
+		if (openModalBtn == null) return;
+		console.log(openModalBtn);
 		openModalBtn.addEventListener("click", function () {
 			document.getElementById("phone-images-modal").style.display =
 				"block";
@@ -24,6 +26,7 @@ mblEssen.modal = {
 		const closeModalBtn = document.querySelector(
 			".phone-images span.close-modal"
 		);
+		if (closeModalBtn == null) return;
 		closeModalBtn.addEventListener("click", function () {
 			document.getElementById("phone-images-modal").style.display =
 				"none";
