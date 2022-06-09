@@ -90,10 +90,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <!-- Start Network -->
                     <h3>Network</h3>
                     <table>
-                        <?php if (get_field('network_speed')) : ?>
+                        <?php if (get_field('network_technology')) : ?>
                             <tr>
                                 <th>Technology</th>
-                                <td><?php echo esc_html( get_field('network_speed') );
+                                <td><?php echo esc_html( get_field('network_technology') );
                                 ?></td>
                             </tr>
                         <?php endif; ?>
@@ -101,7 +101,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <tr>
                                 <th>2G bands</th>
                                 <td><?php 
-                                echo esc_html( 'GSM ' ) . esc_html( implode( ", ", get_field('network_2g_bands') ) );
+                                echo esc_html( 'GSM ' ) . esc_html( implode( ", ", get_field('network_2g_bands') ) . " " . get_field( 'network_2g_extra' ) );
                                 ?></td>
                             </tr>
                         <?php endif;
@@ -109,20 +109,26 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <tr>
                                 <th>3G bands</th>
                                 <td><?php 
-                                echo esc_html( 'HSDPA ' ) . esc_html( implode( ", ", get_field('network_3g_bands') ) );
+                                echo esc_html( 'HSDPA ' ) . esc_html( implode( ", ", get_field('network_3g_bands') ) . " " . get_field( 'network_3g_extra' ) );
                                 ?></td>
                             </tr>
                         <?php endif;
                         if (get_field('network_4g_bands')) : ?>
                             <tr>
                                 <th>4G bands</th>
-                                <td><?php echo esc_html( implode( ", ", get_field('network_4g_bands') ) ); ?></td>
+                                <td><?php echo esc_html( implode( ", ", get_field('network_4g_bands') ) . " " . get_field( 'network_4g_extra' ) ); ?></td>
                             </tr>
-                        <?php endif;
-                        if (get_field('network_5g_bands')) : ?>
+                        <?php endif; ?>
+                        <?php if (get_field('network_5g_bands')) : ?>
                             <tr>
                                 <th>5G bands</th>
-                                <td><?php echo esc_html( implode( ", ", get_field('network_5g_bands') ) ); ?></td>
+                                <td><?php echo esc_html( implode( ", ", get_field('network_5g_bands') ) . " " . get_field( 'network_5g_extra' ) ); ?></td>
+                            </tr>
+                        <?php endif; ?>
+                        <?php if (get_field('network_speed')) : ?>
+                            <tr>
+                                <th>Speed</th>
+                                <td><?php echo esc_html( get_field('network_speed') ); ?></td>
                             </tr>
                         <?php endif; ?>
                     </table>
@@ -137,10 +143,17 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <td><?php echo esc_html( date( "Y, F j", strtotime( get_field('general_year') ) ) ); ?></td>
                         </tr>
                         <?php endif; ?>
-                        <?php if ( get_field('general_availability') || get_field('general_expected_release_date') ) : ?>
+                        <?php if ( get_field('general_availability') ) : 
+                            $text = get_field('general_availability');
+                            if ( $text == 'Available' ) {
+                                $text .= '. Released ' . get_field( 'general_release_date' );
+                            } elseif ( $text == 'Coming soon') {
+                                $text .= '. ' . get_field( 'general_expected_release_date' );
+                            }
+                            ?>
                         <tr>
                             <th>Status</th>
-                            <td><?php echo esc_html( get_field('general_availability') . '. ' . get_field('general_expected_release_date') ); ?></td>
+                            <td><?php echo esc_html( $text ); ?></td>
                         </tr>
                         <?php endif; ?>
                     </table>
@@ -149,42 +162,31 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <!-- Start Body -->
                     <h3>Body</h3>
                     <table>
-                        <?php if (get_field('body_height')) : ?>
+                        <?php if (get_field('body_dimension_height')) : ?>
                         <tr>
                             <th>Dimensions</th>
-                            <td><?php echo esc_html( get_field('body_height') . ' x ' . get_field('body_width') . ' x ' . get_field('body_thickness') . ' mm' ); ?></td>
+                            <td><?php echo esc_html( get_field('body_dimension_height') . ' x ' . get_field('body_dimension_width') . ' x ' . get_field('body_dimension_thickness') . ' mm' ); ?></td>
                         </tr>
                         <?php endif; ?>
-                        <?php if (get_field('body_weight')) : ?>
+                        <?php if (get_field('body_dimension_weight')) : ?>
                         <tr>
                             <th>Weight</th>
                             <td><?php 
-                            $oz = floatval( get_field('body_weight')) / 28.35;
-                            echo esc_html( get_field('body_weight') . ' g (' . number_format($oz, 2) . ' oz)' ); ?></td>
+                            $oz = floatval( get_field('body_dimension_weight')) / 28.35;
+                            echo esc_html( get_field('body_dimension_weight') . ' g (' . number_format($oz, 2) . ' oz)' ); ?></td>
                         </tr>
                         <?php endif; ?>
-                        <?php if ( get_field('sim_sim_chamber') ) : ?>
+                        <?php if (get_field('body_dimension_build')) : ?>
+                        <tr>
+                            <th>Build</th>
+                            <td><?php
+                            echo esc_html( get_field('body_dimension_build') ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+                        <?php if ( get_field('body_sim') ) : ?>
                         <tr>
                             <th>SIM</th>
-                            <td><?php
-                            switch( get_field('sim_sim_chamber') ) {
-                                case 1:
-                                    $text = 'Single SIM';
-                                    break;
-                                case 2:
-                                    $text = 'Dual SIM';
-                                    break;
-                                case 3:
-                                    $text = 'Tripple SIM';
-                                    break;
-                                case 4:
-                                    $text = 'Quad SIM';
-                                    break;
-                                default:
-                                    $text = get_field('sim_sim_chamber') . ' SIM Slots';
-                            }
-                            $sim_type = get_field('sim_sim_size') ? get_field('sim_sim_size') : '';
-                            echo $text . " (" . implode( ", ", $sim_type ) . ")";
+                            <td><?php echo esc_html( get_field('body_sim') );
                             ?></td>
                         </tr>
                         <?php endif; ?>
@@ -199,10 +201,18 @@ if ( ! defined( 'ABSPATH' ) ) {
                         $type = [];
                         if (get_field('display_type_technology') || get_field('display_type_refresh_rate') || get_field('display_type_others') || get_field('display_type_brightness') ) : 
                             $display = true;
-                            $type[] = get_field('display_type_technology');
-                            $type[] = get_field('display_type_refresh_rate') . 'Hz';
-                            $type[] = get_field( 'display_type_others' );
-                            $type[] = get_field( 'display_type_brightness' ) . ' nits';
+                            if ( get_field('display_type_technology') ) {
+                                $type[] = get_field('display_type_technology');
+                            }
+                            if ( get_field('display_type_refresh_rate') ) {
+                                $type[] = get_field('display_type_refresh_rate') . 'Hz';
+                            }
+                            if ( get_field( 'display_type_others' ) ) {
+                                $type[] = get_field( 'display_type_others' );
+                            }
+                            if ( get_field( 'display_type_brightness' ) ) {
+                                $type[] = get_field( 'display_type_brightness' ) . ' nits';
+                            }
                         endif; ?>
                         <?php if ( $display ) : ?>
                         <tr>
@@ -230,8 +240,16 @@ if ( ! defined( 'ABSPATH' ) ) {
                         $resolution = [];
                         if (get_field('display_resolution_resolution_front') || get_field('display_resolution_density') ) : 
                             $display = true;
-                            $resolution[] = get_field('display_resolution_resolution_front');
-                            $resolution[] = '(~' . get_field('display_resolution_density') . ' ppi density)';
+                            if ( get_field('display_resolution_resolution_front') ) {
+                                $comma = get_field('display_resolution_other') ? ',' : '';
+                                $resolution[] = get_field('display_resolution_resolution_front') . $comma;
+                            }
+                            if ( get_field('display_resolution_other') ) {
+                                $resolution[] = get_field('display_resolution_other');
+                            }
+                            if ( get_field('display_resolution_density') ) {
+                                $resolution[] = '(~' . get_field('display_resolution_density') . ' ppi density)';
+                            }
                         endif; ?>
                         <?php if ( $display ) : ?>
                         <tr>
@@ -309,13 +327,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <table>
                         <?php
                         $display = false;
-                        if ( get_field( 'memory_type_card_slot' ) ) : 
+                        if ( get_field( 'memory_type_card_details' ) ) : 
                             $display = true;
                         endif; ?>
                         <?php if ( $display ) : ?>
                         <tr>
                             <th>Card slot</th>
-                            <td><?php echo esc_html( get_field( 'memory_type_card_slot' ) ); ?></td>
+                            <td><?php echo esc_html( get_field( 'memory_type_card_details' ) ); ?></td>
                         </tr>
                         <?php endif; ?>
                         
@@ -326,9 +344,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                             get_field( 'memory_variation_1_storage' ) ||
                             get_field( 'memory_variation_2_storage' ) ||
                             get_field( 'memory_variation_3_storage' ) ||
+                            get_field( 'memory_variation_4_storage' ) ||
+                            get_field( 'memory_variation_5_storage' ) ||
                             get_field( 'memory_variation_1_ram' ) ||
                             get_field( 'memory_variation_2_ram' ) ||
-                            get_field( 'memory_variation_3_ram' )
+                            get_field( 'memory_variation_3_ram' ) ||
+                            get_field( 'memory_variation_4_ram' ) ||
+                            get_field( 'memory_variation_5_ram' )
                         ) : 
                             $display = true;
                             if ( get_field( 'memory_variation_1_storage' ) && get_field( 'memory_variation_1_ram' ) ) {
@@ -340,6 +362,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                             if ( get_field( 'memory_variation_3_storage' ) && get_field( 'memory_variation_3_ram' ) ) {
                                 $internal[] = get_field( 'memory_variation_3_storage' ) . 'GB ' . get_field( 'memory_variation_3_ram' ) . 'GB RAM';
                             }
+                            if ( get_field( 'memory_variation_4_storage' ) && get_field( 'memory_variation_4_ram' ) ) {
+                                $internal[] = get_field( 'memory_variation_4_storage' ) . 'GB ' . get_field( 'memory_variation_4_ram' ) . 'GB RAM';
+                            }
+                            if ( get_field( 'memory_variation_5_storage' ) && get_field( 'memory_variation_5_ram' ) ) {
+                                $internal[] = get_field( 'memory_variation_5_storage' ) . 'GB ' . get_field( 'memory_variation_5_ram' ) . 'GB RAM';
+                            }
                         endif; ?>
                         <?php if ( $display ) : ?>
                         <tr>
@@ -350,7 +378,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                         <?php
                         $display = false;
-                        if ( get_field( 'memory_type_storage' ) ) : 
+                        if ( get_field( 'memory_type_storage' ) && get_field( 'memory_type_storage' ) != 'None' ) : 
                             $display = true;
                         endif; ?>
                         <?php if ( $display ) : ?>
@@ -401,21 +429,22 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     $cam = [];
                                     if (
                                         get_field( 'main_camera_camera_info_camera_'. $i .'_resolution' ) ||
-                                        get_field( 'main_camera_camera_info_camera_'. $i .'_type' )  || 
                                         get_field( 'main_camera_camera_info_camera_'. $i .'_f-number' )  || 
+                                        get_field( 'main_camera_camera_info_camera_'. $i .'_type' )  || 
                                         get_field( 'main_camera_camera_info_camera_'. $i .'_others' )
                                     ) {
 
                                         if ( get_field( 'main_camera_camera_info_camera_'. $i .'_resolution' ) ) {
                                             $cam[] = get_field( 'main_camera_camera_info_camera_'. $i .'_resolution' ) . ' MP';
                                         }
-
-                                        if ( get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) && get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) !== 'none' ) {
-                                            $cam[] = '(' . get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) . ')';
-                                        }
                                         if ( get_field( 'main_camera_camera_info_camera_'. $i .'_f-number' ) ) {
-                                            $cam[] = get_field( 'main_camera_camera_info_camera_'. $i .'_f-number' );
+                                            $cam[] = 'f/' . get_field( 'main_camera_camera_info_camera_'. $i .'_f-number' );
                                         }
+                                        if ( get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) && get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) !== 'none' ) {
+                                            $angel = get_field( 'main_camera_camera_info_camera_'. $i .'_angel' ) ? get_field( 'main_camera_camera_info_camera_'. $i .'_angel' ) . ' ' : '';
+                                            $cam[] = $angel . '(' . get_field( 'main_camera_camera_info_camera_'. $i .'_type' ) . ')';
+                                        }
+                                        
                                         if ( get_field( 'main_camera_camera_info_camera_'. $i .'_others' ) ) {
                                             $cam[] = get_field( 'main_camera_camera_info_camera_'. $i .'_others' );
                                         }
@@ -532,7 +561,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         }
 
                                         if ( get_field( 'selfie_camera_camera_info_camera_'. $i .'_type' ) && get_field( 'selfie_camera_camera_info_camera_'. $i .'_type' ) !== 'none' ) {
-                                            $cam[] = '(' . get_field( 'selfie_camera_camera_info_camera_'. $i .'_type' ) . ')';
+                                            $angel = get_field( 'selfie_camera_camera_info_camera_'. $i .'_angel' ) ? get_field( 'selfie_camera_camera_info_camera_'. $i .'_angel' ) . ' ' : '';
+                                            $cam[] = $angel . '(' . get_field( 'selfie_camera_camera_info_camera_'. $i .'_type' ) . ')';
                                         }
                                         
                                         if ( get_field( 'selfie_camera_camera_info_camera_'. $i .'_others' ) ) {
@@ -605,9 +635,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php
                             $display = false;
                             $loudspeaker = '';
-                            if ( get_field( 'audio_dual_speakers' ) ) {
+                            if ( get_field( 'audio_loudspeaker_extra' ) ) {
                                 $display = true;
-                                $loudspeaker = 'Yes';
+                                $loudspeaker = get_field( 'audio_loudspeaker_extra' );
                             }
                             ?>
                             <?php if ( $display ) : ?>
@@ -620,16 +650,28 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php
                             $display = false;
                             $jack = [];
-                            if ( get_field( 'audio_35mm_jack' ) || get_field( 'audio_extra_info_1' ) || get_field( 'audio_extra_info_2' ) ) {
+                            if (
+                                get_field( 'audio_35mm_jack' ) ||
+                                get_field( 'audio_extra_extra_info_1' ) ||
+                                get_field( 'audio_extra_extra_info_2' ) ||
+                                get_field( 'audio_extra_extra_info_3' ) ||
+                                get_field( 'audio_extra_extra_info_4' )
+                            ) {
                                 $display = true;
                                 if ( get_field( 'audio_35mm_jack' ) ) {
                                     $jack[] = 'Yes';
                                 }
-                                if ( get_field( 'audio_extra_info_1' ) ) {
-                                    $jack[] = get_field( 'audio_extra_info_1' );
+                                if ( get_field( 'audio_extra_extra_info_1' ) ) {
+                                    $jack[] = get_field( 'audio_extra_extra_info_1' );
                                 }
-                                if ( get_field( 'audio_extra_info_2' ) ) {
-                                    $jack[] = get_field( 'audio_extra_info_2' );
+                                if ( get_field( 'audio_extra_extra_info_2' ) ) {
+                                    $jack[] = get_field( 'audio_extra_extra_info_2' );
+                                }
+                                if ( get_field( 'audio_extra_extra_info_3' ) ) {
+                                    $jack[] = get_field( 'audio_extra_extra_info_3' );
+                                }
+                                if ( get_field( 'audio_extra_extra_info_4' ) ) {
+                                    $jack[] = get_field( 'audio_extra_extra_info_4' );
                                 }
                             }
                         ?>
@@ -773,18 +815,47 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <table>
                         <?php
                             $display = false;
-                            if ( get_field( 'sensors_description' ) ) {
+                            $features = [];
+                            if (
+                                get_field( 'sensors_description_1' ) ||
+                                get_field( 'sensors_description_2' ) ||
+                                get_field( 'sensors_description_3' ) ||
+                                get_field( 'sensors_description_4' ) ||
+                                get_field( 'sensors_description_5' )
+                            ) {
                                 $display = true;
+                                if ( get_field( 'sensors_description_1' ) ) {
+                                    $features[] = get_field( 'sensors_description_1' );
+                                }
+                                if ( get_field( 'sensors_description_2' ) ) {
+                                    $features[] = get_field( 'sensors_description_2' );
+                                }
+                                if ( get_field( 'sensors_description_3' ) ) {
+                                    $features[] = get_field( 'sensors_description_3' );
+                                }
+                                if ( get_field( 'sensors_description_4' ) ) {
+                                    $features[] = get_field( 'sensors_description_4' );
+                                }
+                                if ( get_field( 'sensors_description_5' ) ) {
+                                    $features[] = get_field( 'sensors_description_5' );
+                                }
                             }
-                            ?>
-                            <?php if ( $display ) : ?>
-                            <tr>
-                                <th>Features</th>
-                                <td><?php echo esc_html( get_field( 'sensors_description' ) ); ?></td>
-                            </tr>
+                        ?>
+                        <?php if ( $display ) : 
+                            
+                            if ( count($features) ) :
+                                foreach( $features as $index => $feature ) :
+                                    ?>
+                                    <tr>
+                                        <?php if ( 0 == $index ) : ?>
+                                            <th rowspan="10">Features</th>
+                                        <?php endif; ?>
+                                        <td><?php echo esc_html( $feature ); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         <?php endif; ?>
 
-                        
                     </table>
                     <!-- End Features -->
 
