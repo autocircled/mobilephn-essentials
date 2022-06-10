@@ -183,10 +183,40 @@ if ( ! defined( 'ABSPATH' ) ) {
                             echo esc_html( get_field('body_dimension_build') ); ?></td>
                         </tr>
                         <?php endif; ?>
-                        <?php if ( get_field('body_sim') ) : ?>
+                        <?php if ( get_field('body_description_sim') ) : ?>
                         <tr>
-                            <th>SIM</th>
-                            <td><?php echo esc_html( get_field('body_sim') );
+                            <th rowspan="10">SIM</th>
+                            <td><?php echo esc_html( get_field('body_description_sim') );
+                            ?></td>
+                        </tr>
+                        <?php endif; ?>
+                        <?php if ( get_field('body_description_extra_1') ) : ?>
+                        <tr>
+                            <td><?php echo esc_html( get_field('body_description_extra_1') );
+                            ?></td>
+                        </tr>
+                        <?php endif; ?>
+                        <?php if ( get_field('body_description_extra_2') ) : ?>
+                        <tr>
+                            <td><?php echo esc_html( get_field('body_description_extra_2') );
+                            ?></td>
+                        </tr>
+                        <?php endif; ?>
+                        <?php if ( get_field('body_description_extra_3') ) : ?>
+                        <tr>
+                            <td><?php echo esc_html( get_field('body_description_extra_3') );
+                            ?></td>
+                        </tr>
+                        <?php endif; ?>
+                        <?php if ( get_field('body_description_extra_4') ) : ?>
+                        <tr>
+                            <td><?php echo esc_html( get_field('body_description_extra_4') );
+                            ?></td>
+                        </tr>
+                        <?php endif; ?>
+                        <?php if ( get_field('body_description_extra_5') ) : ?>
+                        <tr>
+                            <td><?php echo esc_html( get_field('body_description_extra_5') );
                             ?></td>
                         </tr>
                         <?php endif; ?>
@@ -257,6 +287,82 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <td><?php echo implode( " ", $resolution ); ?></td>
                         </tr>
                         <?php endif; ?>
+                        <?php
+                        $display = false;
+                        $protections = []; 
+                        if (
+                            get_field('display_protection_protection_1') ||
+                            get_field('display_protection_protection_2') ||
+                            get_field('display_protection_protection_3') ||
+                            get_field('display_protection_protection_4') ||
+                            get_field('display_protection_protection_5')
+                        ) {
+                            $display = true;
+                            if ( get_field('display_protection_protection_1') ) {
+                                $protections[] = get_field('display_protection_protection_1');
+                            }
+                            if ( get_field('display_protection_protection_2') ) {
+                                $protections[] = get_field('display_protection_protection_2');
+                            }
+                            if ( get_field('display_protection_protection_3') ) {
+                                $protections[] = get_field('display_protection_protection_3');
+                            }
+                            if ( get_field('display_protection_protection_4') ) {
+                                $protections[] = get_field('display_protection_protection_4');
+                            }
+                            if ( get_field('display_protection_protection_5') ) {
+                                $protections[] = get_field('display_protection_protection_5');
+                            }
+                        }
+                        ?>
+                        <?php if ( $display ) :
+                            if ( count( $protections ) ) :
+                                foreach( $protections as $i => $v ) :
+                                    ?>
+                                    <tr>
+                                        <?php if ( 0 == $i ) : ?>
+                                            <th rowspan="10">Protection</th>
+                                        <?php endif; ?>
+                                        <td><?php echo esc_html( $v ); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        <?php endif; ?>
+
+                        <?php
+                        $display = false;
+                        $extras = []; 
+                        if (
+                            get_field('display_others_extra_1') ||
+                            get_field('display_others_extra_1') ||
+                            get_field('display_others_extra_1') ||
+                            get_field('display_others_extra_1')
+                        ) {
+                            $display = true;
+                            if ( get_field('display_others_extra_1') ) {
+                                $extras[] = get_field('display_others_extra_1');
+                            }
+                            if ( get_field('display_others_extra_2') ) {
+                                $extras[] = get_field('display_others_extra_2');
+                            }
+                            if ( get_field('display_others_extra_3') ) {
+                                $extras[] = get_field('display_others_extra_3');
+                            }
+                            if ( get_field('display_others_extra_4') ) {
+                                $extras[] = get_field('display_others_extra_4');
+                            }
+                        }
+                        ?>
+                        <?php if ( $display ) :
+                            if ( count( $extras ) ) :
+                                foreach( $extras as $i => $v ) :
+                                    ?>
+                                    <tr>
+                                        <td><?php echo esc_html( $v ); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        <?php endif; ?>
                     </table>
                     <!-- End Display -->
 
@@ -266,59 +372,141 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <?php
                         $display = false;
                         $os = [];
-                        if (get_field('platform_android_version') || get_field('platform_android_skin') ) : 
+                        if (
+                            get_field('platform_os_os_details_1') ||
+                            get_field('platform_os_os_details_2') ||
+                            get_field('platform_os_os_details_3')
+                        ) : 
                             $display = true;
-                            $os[] = get_field('platform_android_version');
-                            $os[] = get_field('platform_android_skin');
+                            if ( get_field('platform_os_os_details_1') ) {
+                                $os[] = get_field('platform_os_os_details_1');
+                            }
+                            if ( get_field('platform_os_os_details_2') ) {
+                                $os[] = get_field('platform_os_os_details_2');
+                            }
+                            if ( get_field('platform_os_os_details_3') ) {
+                                $os[] = get_field('platform_os_os_details_3');
+                            }
                         endif; ?>
-                        <?php if ( $display ) : ?>
-                        <tr>
-                            <th>OS</th>
-                            <td><?php echo implode( ", ", $os ); ?></td>
-                        </tr>
+                        <?php if ( $display ) : 
+                            if ( count( $os ) ) :
+                                foreach( $os as $i => $v ) :
+                                    ?>
+                                    <tr>
+                                        <?php if ( 0 == $i ) : ?>
+                                            <th rowspan="<?php echo esc_attr( count( $os ) )?>">OS</th>
+                                        <?php endif; ?>
+                                        <td><?php echo esc_html( $v ); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         <?php endif; ?>
 
                         <?php
                         $display = false;
                         $chipset = [];
-                        if (get_field('platform_chipset_info_chipset_brand') || get_field('platform_chipset_info_chipset') ) : 
+                        if (
+                            get_field('platform_chipset_chipset_details_1') ||
+                            get_field('platform_chipset_chipset_details_2') ||
+                            get_field('platform_chipset_chipset_details_3') ||
+                            get_field('platform_chipset_chipset_details_4')
+                        ) : 
                             $display = true;
-                            $chipset[] = get_field('platform_chipset_info_chipset_brand');
-                            $chipset[] = get_field('platform_chipset_info_chipset');
+                            if ( get_field('platform_chipset_chipset_details_1') ) {
+                                $chipset[] = get_field('platform_chipset_chipset_details_1');
+                            }
+                            if ( get_field('platform_chipset_chipset_details_2') ) {
+                                $chipset[] = get_field('platform_chipset_chipset_details_2');
+                            }
+                            if ( get_field('platform_chipset_chipset_details_3') ) {
+                                $chipset[] = get_field('platform_chipset_chipset_details_3');
+                            }
+                            if ( get_field('platform_chipset_chipset_details_4') ) {
+                                $chipset[] = get_field('platform_chipset_chipset_details_4');
+                            }
                         endif; ?>
-                        <?php if ( $display ) : ?>
-                        <tr>
-                            <th>Chipset</th>
-                            <td><?php echo implode( " ", $chipset ); ?></td>
-                        </tr>
-                        <?php endif; ?>
-                        
-                        <?php
-                        $display = false;
-                        $cpu = [];
-                        if (get_field('platform_cpu_info_cpu_core_in_word') || get_field('platform_cpu_info_cpu_frequency_details') ) : 
-                            $display = true;
-                            $cpu[] = get_field('platform_cpu_info_cpu_core_in_word');
-                            $cpu[] = get_field('platform_cpu_info_cpu_frequency_details');
-                        endif; ?>
-                        <?php if ( $display ) : ?>
-                        <tr>
-                            <th>CPU</th>
-                            <td><?php echo implode( " ", $cpu ); ?></td>
-                        </tr>
+                        <?php if ( $display ) : 
+                            if ( count( $chipset ) ) :
+                                foreach( $chipset as $i => $v ) :
+                                    ?>
+                                    <tr>
+                                        <?php if ( 0 == $i ) : ?>
+                                            <th rowspan="<?php echo esc_attr( count( $chipset ) )?>">Chipset</th>
+                                        <?php endif; ?>
+                                        <td><?php echo esc_html( $v ); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         <?php endif; ?>
 
                         <?php
                         $display = false;
-                        if (get_field('platform_cpu_info_gpu') ) : 
+                        $cpu = [];
+                        if (
+                            get_field('platform_cpu_cpu_details_1') ||
+                            get_field('platform_cpu_cpu_details_2') ||
+                            get_field('platform_cpu_cpu_details_3')
+                        ) : 
                             $display = true;
+                            if ( get_field('platform_cpu_cpu_details_1') ) {
+                                $cpu[] = get_field('platform_cpu_cpu_details_1');
+                            }
+                            if ( get_field('platform_cpu_cpu_details_2') ) {
+                                $cpu[] = get_field('platform_cpu_cpu_details_2');
+                            }
+                            if ( get_field('platform_cpu_cpu_details_3') ) {
+                                $cpu[] = get_field('platform_cpu_cpu_details_3');
+                            }
                         endif; ?>
-                        <?php if ( $display ) : ?>
-                        <tr>
-                            <th>GPU</th>
-                            <td><?php echo get_field('platform_cpu_info_gpu'); ?></td>
-                        </tr>
+                        <?php if ( $display ) : 
+                            if ( count( $cpu ) ) :
+                                foreach( $cpu as $i => $v ) :
+                                    ?>
+                                    <tr>
+                                        <?php if ( 0 == $i ) : ?>
+                                            <th rowspan="<?php echo esc_attr( count( $cpu ) )?>">CPU</th>
+                                        <?php endif; ?>
+                                        <td><?php echo esc_html( $v ); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         <?php endif; ?>
+                        
+                        <?php
+                        $display = false;
+                        $gpu = [];
+                        if (
+                            get_field('platform_gpu_gpu_1') ||
+                            get_field('platform_gpu_gpu_2') ||
+                            get_field('platform_gpu_gpu_3')
+                        ) : 
+                            $display = true;
+                            if ( get_field('platform_gpu_gpu_1') ) {
+                                $gpu[] = get_field('platform_gpu_gpu_1');
+                            }
+                            if ( get_field('platform_gpu_gpu_2') ) {
+                                $gpu[] = get_field('platform_gpu_gpu_2');
+                            }
+                            if ( get_field('platform_gpu_gpu_3') ) {
+                                $gpu[] = get_field('platform_gpu_gpu_3');
+                            }
+                        endif; ?>
+                        <?php if ( $display ) : 
+                            if ( count( $gpu ) ) :
+                                foreach( $gpu as $i => $v ) :
+                                    ?>
+                                    <tr>
+                                        <?php if ( 0 == $i ) : ?>
+                                            <th rowspan="<?php echo esc_attr( count( $gpu ) )?>">GPU</th>
+                                        <?php endif; ?>
+                                        <td><?php echo esc_html( $v ); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        
+                        
+                        
                     </table>
                     <!-- End Platform -->
 

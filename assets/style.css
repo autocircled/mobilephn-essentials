@@ -34,7 +34,7 @@
     justify-content: center;
 }
 .pim-slides {
-    height: 75vh;
+    max-height: 75vh;
 }
 .dot-nav img.dotb {
     width: 100%;
