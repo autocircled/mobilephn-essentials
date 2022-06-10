@@ -1183,6 +1183,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                         
                     </table>
                     <!-- End Miscellaneous -->
+
+                    <div class="disclaimer-notice">
+                        <p><strong>Disclaimer</strong>: We can not guarantee that the information on this page is 100% correct. <a href="https://mobilephn.com/data-disclaimer/">Read more</a></p>
+                    </div>
                 </div>
                 <?php
 

@@ -30,6 +30,19 @@ class Register_Post_Templates {
 	 */
 	protected function setup() {
 		add_filter( 'single_template', [ $this, 'load_single_template' ], 0 );
+		add_filter( 'archive_template', [ $this, 'load_archive_template' ], 0 );
+		add_action( 'sacchaone_before_archive_content', function(){
+			echo wp_kses( '<div class="phone-archive-wrapper">', array(
+				'div' => array(
+					'class' => array(),
+				),
+			) );
+		} );
+		add_action( 'sacchaone_after_archive_content', function(){
+			echo wp_kses( '</div>', array(
+				'div' => array(),
+			) );
+		} );
 	}
     
     public static function mbl_essen_get_template_part( $slug, $name = '' ){
@@ -55,6 +68,14 @@ class Register_Post_Templates {
         global $post;
 		if ( 'phone' === $post->post_type && locate_template( array( self::$template_path . 'single-phone.php' ) ) !== $template ) {
 			$template = MBLESSEN_DIR . 'templates/single-phone.php';
+		}
+		return $template;
+    }
+
+    public function load_archive_template( $template ){
+        global $post;
+		if ( 'phone' === $post->post_type && locate_template( array( self::$template_path . 'archive.php' ) ) !== $template ) {
+			$template = MBLESSEN_DIR . 'templates/archive-phone.php';
 		}
 		return $template;
     }

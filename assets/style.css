@@ -132,5 +132,45 @@
     padding: 2px 16px;
     color: white;
 }
+.phone-archive-wrapper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 20px;
+    background: #fff;
+    padding: 40px;
+    row-gap: 20px;
+}
+.post-type-archive-phone .content-wrapper {
+    padding: 0;
+}
 
+.post-type-archive-phone .entry-title,
+.post-type-archive-phone .entry-title a {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    
+}
+.post-type-archive-phone .entry-title {
+    padding: 30px 10px;
+    display: block;
+    text-align: center;
+}
+.post-type-archive-phone .entry-title a {
+    position: absolute;
+    top: 46%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    left: 0;
+    width: 100%;
+    padding: 0 15px;
+}
+.post-type-archive-phone article:hover .entry-title a {
+    color: #fff;
+}
 
+.post-type-archive-phone article:hover .entry-title {
+    background: #c52828;
+}
