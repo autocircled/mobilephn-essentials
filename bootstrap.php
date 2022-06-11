@@ -9,9 +9,6 @@
 
 namespace MblEssen;
 
-use \MblEssen\Includes\Register_Post_Type;
-use \MblEssen\Includes\Register_Post_Metas;
-use \MblEssen\Includes\Register_Post_Templates;
 use \MblEssen\Includes\Helper;
 
 
@@ -30,9 +27,6 @@ class Bootstrap {
 	private static $instance;
 
 	public function __construct() {
-		Register_Post_Type::instance();
-		Register_Post_Metas::instance();
-		Register_Post_Templates::instance();
 		Helper::instance();
 	}
 
