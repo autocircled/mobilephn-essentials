@@ -399,7 +399,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <table>
                         <?php if ( get_field( 'features_sensors' ) ) : ?>
                         <tr>
-                            <th>Features</th>
+                            <th>Sensors</th>
                             <td><?php echo esc_html( get_field( 'features_sensors' ) ); ?></td>
                         </tr>
                         <?php endif; ?>
@@ -441,65 +441,34 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <td><?php echo esc_html( get_field( 'misc_price' ) ); ?></td>
                         </tr>
                         <?php endif; ?>
-
-                        <?php
-                            $display = false;
-                            if ( get_field( 'miscellaneous_models' ) ) {
-                                $display = true;
-                            }
-                            ?>
-                            <?php if ( $display ) : ?>
-                            <tr>
-                                <th>Models</th>
-                                <td><?php echo esc_html( get_field( 'miscellaneous_models' ) ); ?></td>
-                            </tr>
-                        <?php endif; ?>
-
-                        <?php
-                            $display = false;
-                            if ( get_field( 'miscellaneous_sar' ) ) {
-                                $display = true;
-                            }
-                            ?>
-                            <?php if ( $display ) : ?>
-                            <tr>
-                                <th>SAR</th>
-                                <td><?php echo esc_html( get_field( 'miscellaneous_sar' ) ); ?></td>
-                            </tr>
-                        <?php endif; ?>
-
-                        <?php
-                            $display = false;
-                            if ( get_field( 'miscellaneous_sar_eu' ) ) {
-                                $display = true;
-                            }
-                            ?>
-                            <?php if ( $display ) : ?>
-                            <tr>
-                                <th>SAR EU</th>
-                                <td><?php echo esc_html( get_field( 'miscellaneous_sar_eu' ) ); ?></td>
-                            </tr>
-                        <?php endif; ?>
-
                         
-                        
-                    </table>
-                    <!-- End Miscellaneous -->
-                    
-                    <!-- Start Test -->
-                    <h3>Test</h3>
-                    <table>
-                        <?php if ( get_field( 'tests_performance' ) ) : ?>
+                        <?php if ( get_field( 'misc_models' ) ) : ?>
                         <tr>
-                            <th>Price</th>
-                            <td><?php echo esc_html( get_field( 'tests_performance' ) ); ?></td>
+                            <th>Models</th>
+                            <td><?php echo esc_html( get_field( 'misc_models' ) ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+                        
+                        <?php if ( get_field( 'misc_sar' ) ) : ?>
+                        <tr>
+                            <th>SAR</th>
+                            <td><?php echo esc_html( get_field( 'misc_sar' ) ); ?></td>
+                        </tr>
+                        <?php endif; ?>
+
+                        <?php if ( get_field( 'misc_sar_eu' ) ) : ?>
+                        <tr>
+                            <th>SAR EU</th>
+                            <td><?php echo esc_html( get_field( 'misc_sar_eu' ) ); ?></td>
                         </tr>
                         <?php endif; ?>
                     </table>
-                    <!-- End Test -->
+                    <!-- End Miscellaneous -->
+                    
+                    
 
                     <div class="disclaimer-notice">
-                        <p><strong>Disclaimer</strong>: We can not guarantee that the information on this page is 100% correct. <a href="https://mobilephn.com/data-disclaimer/">Read more</a></p>
+                        <p><strong>Disclaimer</strong>: We can not guarantee that the information on this page is 100% correct. <a href="<?php echo esc_url( site_url() )?>/data-disclaimer/">Read more</a></p>
                     </div>
                 </div>
                 <?php
