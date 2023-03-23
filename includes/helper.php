@@ -32,7 +32,15 @@ class Helper {
         add_action( 'wp_enqueue_scripts', [ $this, 'load_scripts' ] );
         add_action( 'mbl_essen_after_featured_section', [ $this, 'modal_button' ] );
         add_action( 'wp_footer', [ $this, 'image_gallery' ] );
+        add_action( 'pre_get_posts', [ $this, 'add_my_post_types_to_query' ] );
 	}
+
+ 
+    public function add_my_post_types_to_query( $query ) {
+        if ( is_home() && $query->is_main_query() )
+            $query->set( 'post_type', array( 'post', 'phone' ) );
+        return $query;
+    }
 
     public function preload_contents() {}
 
@@ -60,26 +68,25 @@ class Helper {
                     <?php
                     $slider_items = [];
                     if (
-                        get_field( 'images_image_1' ) ||
-                        get_field( 'images_image_2' ) ||
-                        get_field( 'images_image_3' ) ||
-                        get_field( 'images_image_4' ) ||
-                        get_field( 'images_image_5' ) ||
-                        get_field( 'images_image_6' ) ||
-                        get_field( 'images_image_7' ) ||
-                        get_field( 'images_image_8' ) ||
-                        get_field( 'images_image_9' ) ||
-                        get_field( 'images_image_10' )
+                        get_field( 'gallery_image_1' ) ||
+                        get_field( 'gallery_image_2' ) ||
+                        get_field( 'gallery_image_3' ) ||
+                        get_field( 'gallery_image_4' ) ||
+                        get_field( 'gallery_image_5' ) ||
+                        get_field( 'gallery_image_6' ) ||
+                        get_field( 'gallery_image_7' ) ||
+                        get_field( 'gallery_image_8' ) ||
+                        get_field( 'gallery_image_9' ) ||
+                        get_field( 'gallery_image_10' )
                     ) {
                         for( $i = 1; $i <= 10; $i++ ) {
-                            // var_dump(get_field( 'images_image_' . $i ));
-                            if ( get_field( 'images_image_' . $i ) ) {
-                                $srcset = wp_get_attachment_image_srcset( get_field( 'images_image_' . $i ) );
-                                $slider_items[] = wp_get_attachment_image_url( get_field( 'images_image_' . $i ) );
+                            if ( get_field( 'gallery_image_' . $i ) ) {
+                                $srcset = wp_get_attachment_image_srcset( get_field( 'gallery_image_' . $i ) );
+                                $slider_items[] = wp_get_attachment_image_url( get_field( 'gallery_image_' . $i ) );
                                 ?>
                                 <div class="pim-slides">
                                     <span class="steps"><?php echo esc_html( $i ); ?> / <span class="total">4</span></span>
-                                    <img src="<?php echo wp_get_attachment_image_url( get_field( 'images_image_' . $i ), '' ); ?>" srcset="<?php echo esc_attr( $srcset ); ?>">
+                                    <img src="<?php echo wp_get_attachment_image_url( get_field( 'gallery_image_' . $i ), 'medium_large' ); ?>" srcset="<?php echo esc_attr( $srcset ); ?>">
                                 </div>
                                 <?php
                             }
