@@ -13,7 +13,7 @@ use \MblEssen\Includes\Register_Post_Type;
 use \MblEssen\Includes\Register_Post_Metas;
 use \MblEssen\Includes\Register_Post_Templates;
 use \MblEssen\Includes\Helper;
-
+use \MblEssen\Includes\Shortcodes;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -33,6 +33,7 @@ class Bootstrap {
 		Register_Post_Type::instance();
 		Register_Post_Metas::instance();
 		Register_Post_Templates::instance();
+		Shortcodes::instance();
 		Helper::instance();
 	}
 

@@ -181,3 +181,18 @@
 .tax-brand article:hover .entry-title {
     background: #c52828;
 }
+/**
+* Recent Phones Widget
+*/
+/* .mbl-recent-phones-widget .content-wrapper {
+    padding: 0;
+} */
+.mbl-recent-phones-widget .content-wrapper {
+    padding: 25px;
+}
+.mbl-recent-phones-widget header.entry-header {
+    padding: 0 15px;
+}
+.home header.entry-header {
+    display: none;
+}
