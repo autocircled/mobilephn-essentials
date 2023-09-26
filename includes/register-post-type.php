@@ -30,6 +30,9 @@ class Register_Post_Type {
 	protected function setup() {
 		add_action( 'init', [ $this, 'phones_post_type' ], 0 );
         add_action( 'init', [ $this, 'brand_tax_generator' ], 0 );
+		add_action( 'init', [ $this, 'review_post_type' ], 0 );
+		add_action( 'wp_print_styles', [ $this, 'styles_optimization' ], 0 );
+		add_action( 'wp_print_scripts', [ $this, 'scripts_optimization' ], 0 );
 	}
 
     // Register Custom Post Type
@@ -78,13 +81,70 @@ class Register_Post_Type {
             'show_in_admin_bar'     => true,
             'show_in_nav_menus'     => true,
             'can_export'            => true,
-            'has_archive'           => 'all-phones',
+            'has_archive'           => true,
+            'exclude_from_search'   => false,
+            'publicly_queryable'    => true,
+            'capability_type'       => 'post',
+            'show_in_rest'          => true,
+            'rewrite'               => array( 'slug' => 'custom-phones' ),
+        );
+        register_post_type( 'phone', $args );
+    
+    }
+
+    // Register Custom Post Type
+    public function review_post_type() {
+    
+        $labels = array(
+            'name'                  => _x( 'Reviews', 'Post Type General Name', 'mbl-essen' ),
+            'singular_name'         => _x( 'Review', 'Post Type Singular Name', 'mbl-essen' ),
+            'menu_name'             => __( 'Reviews', 'mbl-essen' ),
+            'name_admin_bar'        => __( 'Reviews', 'mbl-essen' ),
+            'archives'              => __( 'Reviews Archives', 'mbl-essen' ),
+            'attributes'            => __( 'Review Attributes', 'mbl-essen' ),
+            'parent_item_colon'     => __( 'Parent Review:', 'mbl-essen' ),
+            'all_items'             => __( 'All Reviews', 'mbl-essen' ),
+            'add_new_item'          => __( 'Add New Review', 'mbl-essen' ),
+            'add_new'               => __( 'Add New', 'mbl-essen' ),
+            'new_item'              => __( 'New Review', 'mbl-essen' ),
+            'edit_item'             => __( 'Edit Review', 'mbl-essen' ),
+            'update_item'           => __( 'Update Review', 'mbl-essen' ),
+            'view_item'             => __( 'View Review', 'mbl-essen' ),
+            'view_items'            => __( 'View Reviews', 'mbl-essen' ),
+            'search_items'          => __( 'Search Review', 'mbl-essen' ),
+            'not_found'             => __( 'Not found', 'mbl-essen' ),
+            'not_found_in_trash'    => __( 'Not found in Trash', 'mbl-essen' ),
+            'featured_image'        => __( 'Featured Image', 'mbl-essen' ),
+            'set_featured_image'    => __( 'Set featured image', 'mbl-essen' ),
+            'remove_featured_image' => __( 'Remove featured image', 'mbl-essen' ),
+            'use_featured_image'    => __( 'Use as featured image', 'mbl-essen' ),
+            'insert_into_item'      => __( 'Insert into Review', 'mbl-essen' ),
+            'uploaded_to_this_item' => __( 'Uploaded to this review', 'mbl-essen' ),
+            'items_list'            => __( 'Reviews list', 'mbl-essen' ),
+            'items_list_navigation' => __( 'Reviews list navigation', 'mbl-essen' ),
+            'filter_items_list'     => __( 'Filter reviews list', 'mbl-essen' ),
+        );
+
+        $args = array(
+            'label'                 => __( 'Review', 'mbl-essen' ),
+            'description'           => __( 'Post Type Description', 'mbl-essen' ),
+            'labels'                => $labels,
+            'supports'              => array( 'title', 'editor', 'thumbnail', 'custom-fields' ),
+            'hierarchical'          => false,
+            'public'                => true,
+            'show_ui'               => true,
+            'show_in_menu'          => true,
+            'menu_position'         => 6,
+            'show_in_admin_bar'     => true,
+            'show_in_nav_menus'     => true,
+            'can_export'            => true,
+            'has_archive'           => 'reviews',
             'exclude_from_search'   => false,
             'publicly_queryable'    => true,
             'capability_type'       => 'post',
             'show_in_rest'          => true,
         );
-        register_post_type( 'phone', $args );
+        register_post_type( 'review', $args );
     
     }
 
@@ -114,7 +174,7 @@ class Register_Post_Type {
             'items_list_navigation'      => __( 'Brands list navigation', 'mbl-essen' ),
         );
         $rewrite = array(
-            'slug'                       => 'brand',
+            'slug'                       => 'c',
             'with_front'                 => false,
             'hierarchical'               => false,
         );
@@ -132,5 +192,56 @@ class Register_Post_Type {
         register_taxonomy( 'brand', array( 'phone' ), $args );
     
     }
+
+    public function rewrite_rules($rules) {
+        // echo '<pre class="xdebug-var-dump">';
+        // print_r($rules);
+        // echo '</pre>';
+        $new_rules = array(
+            // 'custom-phones/([^/]+)/?$' => 'index.php?phone=$matches[1]',
+            'customphones/?$' => 'index.php?post_type=phone',
+        );
+    
+        return $new_rules + $rules;
+        // return $rules;
+    }
+
+    public function styles_optimization() {
+        global $wp_styles;
+      
+        foreach ($wp_styles->queue as $style) {
+            if ( $style == 'classic-theme-styles' || $style == 'wp-block-library') {
+                wp_dequeue_style( $style );
+
+            }
+        }
+
+        
+        // wp_dequeue_style( 'wp-block-library' );
+        // wp_dequeue_style( 'classic-theme-styles' );
+        // wp_dequeue_style( 'global-styles' );
+        // wp_dequeue_style( 'mbl-essen-style' );
+        // wp_dequeue_style( 'chld_thm_cfg_parent' );
+        // wp_dequeue_style( 'bootstrap' );
+        // wp_dequeue_style( 'font-awesome' );
+        // wp_dequeue_style( 'sacchaone-style' );
+        // wp_dequeue_style( 'sacchaone-main-style' );
+
+    }
+
+    public function scripts_optimization() {
+        global $wp_scripts;
+      
+        foreach ($wp_scripts->queue as $script) {
+            wp_dequeue_script( $script );
+        }
+
+        // wp_dequeue_script( 'mbl-essen-script' );
+        // wp_dequeue_script( 'jquery' );
+        // wp_dequeue_script( 'sacchaone-navigation' );
+        // wp_dequeue_script( 'bootstrap-js' );
+        // wp_dequeue_script( 'lazyload' );
+        // wp_dequeue_script( 'sacchaone-custom' );
+    }      
 
 }
