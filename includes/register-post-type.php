@@ -31,8 +31,8 @@ class Register_Post_Type {
 		add_action( 'init', [ $this, 'phones_post_type' ], 0 );
         add_action( 'init', [ $this, 'brand_tax_generator' ], 0 );
 		add_action( 'init', [ $this, 'review_post_type' ], 0 );
-		add_action( 'wp_print_styles', [ $this, 'styles_optimization' ], 0 );
-		add_action( 'wp_print_scripts', [ $this, 'scripts_optimization' ], 0 );
+		// add_action( 'wp_print_styles', [ $this, 'styles_optimization' ], 0 );
+		// add_action( 'wp_print_scripts', [ $this, 'scripts_optimization' ], 0 );
 	}
 
     // Register Custom Post Type
